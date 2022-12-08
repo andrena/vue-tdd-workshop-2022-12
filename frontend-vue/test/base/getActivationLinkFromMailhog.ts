@@ -1,4 +1,5 @@
 import { fetch } from "undici";
+import { throwError } from "../../throwError";
 
 export interface MailHogContent {
   Body: string;
@@ -19,7 +20,7 @@ export async function getActivationLinkFromMailhog(
   if (!body) {
     throw new Error("Could not get the activation link.");
   }
-  return "TODO";
+  return findLink(body);
 }
 
 async function getMessageBodyAsString(to: string) {
@@ -33,4 +34,9 @@ async function getMailhogResponse(to: string): Promise<MailHogResponse> {
   url.searchParams.append("query", to);
   const res = await fetch(url);
   return (await res.json()) as MailHogResponse;
+}
+
+function findLink(body: string): string {
+  const [match] = body.match(/https?:\/\/\S+/) ?? [];
+  return match ?? throwError(`Could not find link in ${JSON.stringify(body)}`);
 }

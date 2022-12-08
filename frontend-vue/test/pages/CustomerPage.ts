@@ -40,6 +40,26 @@ export class CustomerPage extends BasePage {
     await form.getByText("Add customer").click();
   }
 
+  async getStatusForCustomer(searchString: string): Promise<string> {
+    return (
+      (await this.table
+        .locator("role=row")
+        .filter({ hasText: searchString })
+        .getByTestId("status")
+        .textContent()) ?? ""
+    );
+  }
+
+  async sendActivation(searchString: string): Promise<void> {
+    await this.table
+      .locator("role=row")
+      .filter({ hasText: searchString })
+      .getByRole("button", { name: "Send activation" })
+      .click();
+
+    await this.waitUntilLoaded();
+  }
+
   async filter(filter: string): Promise<void> {
     const searchbox = this.page.getByRole("searchbox");
     await searchbox.fill(filter);
