@@ -47,7 +47,7 @@ describe("CustomerTable", () => {
     expect(benRow).toHaveTextContent("Benjamin");
   });
 
-  it.skip("should filter the rows when submitting a search", async () => {
+  it("should filter the rows when submitting a search", async () => {
     const customers = [jane, ben];
     const table = renderTable(customers);
 

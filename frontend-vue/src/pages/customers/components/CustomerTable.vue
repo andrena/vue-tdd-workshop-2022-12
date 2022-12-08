@@ -1,4 +1,8 @@
 <template>
+  <form role="search" @submit.prevent="search">
+    <input v-model="searchText" type="search" />
+    <button type="submit">Search</button>
+  </form>
   <table>
     <thead>
       <tr>
@@ -11,7 +15,7 @@
     </thead>
     <tbody>
       <CustomerTableRow
-        v-for="customer in customers"
+        v-for="customer in filteredCustomers"
         :key="customer.id"
         :customer="customer"
       />
@@ -20,10 +24,23 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref } from "vue";
 import type { Customer } from "commons";
+import { searchCustomer } from "../../../services/searchCustomer";
 import CustomerTableRow from "./CustomerTableRow.vue";
 
-defineProps<{ customers: Customer[] }>();
+const props = defineProps<{ customers: Customer[] }>();
+
+const searchText = ref("");
+const submittedSearchText = ref("");
+
+function search() {
+  submittedSearchText.value = searchText.value;
+}
+
+const filteredCustomers = computed(() =>
+  searchCustomer(submittedSearchText.value, props.customers)
+);
 </script>
 
 <style scoped>
