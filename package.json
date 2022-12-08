@@ -1,0 +1,21 @@
+{
+  "name": "tdd-workshop-vue",
+  "private": true,
+  "workspaces": [
+    "commons",
+    "backend",
+    "frontend-vue"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "all": "npm run build && cd frontend-vue && npm run lint && npm test && npm run test:ui && npm run test:e2e && npm run test:cucumber"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.5.0",
+    "ts-node": "^10.9.1",
+    "undici": "^5.13.0"
+  },
+  "engines": {
+    "node": ">=18.12"
+  }
+}

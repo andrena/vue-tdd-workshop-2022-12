@@ -1,0 +1,98 @@
+[
+  {
+    "id": "f1d0abca-3440-4a23-af55-31831bcfec10",
+    "firstName": "John",
+    "lastName": "Doe",
+    "addresses": [
+      {
+        "city": "Berlin",
+        "zipCode": "10000",
+        "streetAndNumber": "Teststrasse 1",
+        "country": "Deutschland"
+      }
+    ],
+    "phoneNumber": "+491000000000",
+    "emailAddress": "john.doe@mail.de",
+    "status": "inactive"
+  },
+  {
+    "id": "9739cfbb-d6ee-4c64-ab96-4686928aac05",
+    "firstName": "Benjamin",
+    "lastName": "Utzer",
+    "addresses": [
+      {
+        "city": "Berlin",
+        "zipCode": "10000",
+        "streetAndNumber": "Teststrasse 2",
+        "country": "Deutschland"
+      }
+    ],
+    "phoneNumber": "+491111110011",
+    "emailAddress": "ben.utzer@mail.de",
+    "status": "inactive"
+  },
+  {
+    "id": "b6a29cb9-5fd2-4b22-9106-62d2628abc71",
+    "firstName": "Max",
+    "lastName": "Mustermann",
+    "addresses": [
+      {
+        "city": "Berlin",
+        "zipCode": "10000",
+        "streetAndNumber": "Teststrasse 3",
+        "country": "Deutschland"
+      }
+    ],
+    "phoneNumber": "+491111111111",
+    "emailAddress": "max.mustermann@mail.de",
+    "status": "inactive"
+  },
+  {
+    "id": "f42355f5-8471-43fa-81c8-e440b224cd12",
+    "firstName": "Albert",
+    "lastName": "Zweistein",
+    "addresses": [
+      {
+        "city": "Ulm",
+        "zipCode": "89000",
+        "streetAndNumber": "Teststrasse 4",
+        "country": "Deutschland"
+      }
+    ],
+    "phoneNumber": "+491133111111",
+    "emailAddress": "e2.m2c4@mail.de",
+    "status": "inactive"
+  },
+  {
+    "id": "5377f54b-4ff4-4b68-9edc-87ce6fb165bf",
+    "firstName": "Jane",
+    "lastName": "Loe",
+    "addresses": [
+      {
+        "city": "Karlsruhe",
+        "zipCode": "76000",
+        "streetAndNumber": "Teststrasse 5",
+        "country": "Deutschland"
+      }
+    ],
+    "phoneNumber": "+492211116111",
+    "emailAddress": "jlo@mail.de",
+    "status": "inactive"
+  },
+  {
+    "id": "c32d97d7-7165-4810-b3b6-8ec81137a2d1",
+    "firstName": "Arnold",
+    "lastName": "Weissenegger",
+    "addresses": [
+      {
+        "city": "Karlsruhe",
+        "zipCode": "76000",
+        "streetAndNumber": "Teststrasse 6",
+        "country": "Deutschland"
+      }
+    ],
+    "phoneNumber": "+492211111111",
+    "emailAddress": "weissy@mail.de",
+    "status": "inactive"
+  }
+]

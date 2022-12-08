@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    // Vite build.target defines the target of the built
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "isolatedModules": true,
+    "importsNotUsedAsValues": "error",
+    "forceConsistentCasingInFileNames": true,
+
+    "noEmit": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom"]
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "include": [
+    // hidden files
+    "./.*.*js",
+    // regular js/mjs/cjs files
+    "**/*.*js",
+
+    "**/*.ts",
+    "**/*.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": ["build"]
+}

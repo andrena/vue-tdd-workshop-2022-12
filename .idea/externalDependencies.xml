@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalDependencies">
+    <plugin id="Docker" />
+    <plugin id="Git4Idea" />
+    <plugin id="JavaScript" />
+    <plugin id="cucumber-javascript" />
+    <plugin id="intellij.prettierJS" />
+    <plugin id="intellij.vitejs" />
+    <plugin id="jones.restarteslintaction.restart-eslint-action" />
+    <plugin id="org.jetbrains.plugins.vue" />
+  </component>
+</project>

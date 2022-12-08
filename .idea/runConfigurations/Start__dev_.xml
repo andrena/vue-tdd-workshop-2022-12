@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start (dev)" type="CompoundRunConfigurationType">
+    <toRun name="Mailhog" type="docker-deploy" />
+    <toRun name="Backend Start" type="js.build_tools.npm" />
+    <toRun name="Frontend Start (dev)" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
