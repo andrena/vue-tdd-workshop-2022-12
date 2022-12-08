@@ -19,17 +19,23 @@
 import type { Customer } from "commons";
 import { computed } from "vue";
 import ButtonWithLoading from "../../../components/ButtonWithLoading.vue";
+import { injectOrThrow } from "../../../services/injectOrThrow";
+import {
+  CustomerRepository,
+  CustomerRepositoryKey,
+} from "../../../services/CustomerRepository";
 
 const props = defineProps<{ customer: Customer }>();
+const repository = injectOrThrow<CustomerRepository>(CustomerRepositoryKey);
 
 const isInactive = computed(() => props.customer.status === "inactive");
 
 async function sendActivation() {
-  // ...
+  await repository.startActivation(props.customer);
 }
 
 async function removeCustomer() {
-  // ...
+  await repository.delete(props.customer);
 }
 </script>
 

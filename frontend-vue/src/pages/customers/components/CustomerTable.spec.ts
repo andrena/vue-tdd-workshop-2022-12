@@ -1,11 +1,18 @@
 import { fireEvent, render } from "@testing-library/vue";
 import CustomerTable from "./CustomerTable.vue";
 import { createTestCustomer, Customer } from "commons";
+import { CustomerRepositoryKey } from "../../../services/CustomerRepository";
+import { CustomerRepositoryMock } from "../../../test-utils/CustomerRepositoryMock";
 import { describe, expect, it } from "vitest";
 
 function renderTable(customers: Customer[] = []) {
   return render(CustomerTable, {
     props: { customers },
+    global: {
+      provide: {
+        [CustomerRepositoryKey as symbol]: new CustomerRepositoryMock(),
+      },
+    },
   });
 }
 

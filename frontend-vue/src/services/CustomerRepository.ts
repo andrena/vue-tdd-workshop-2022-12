@@ -12,4 +12,8 @@ export interface CustomerRepository {
   add(customer: CustomerUnsaved): Promise<void>;
 
   delete(customer: Customer): Promise<void>;
+
+  startActivation(customer: Customer): Promise<void>;
+
+  completeActivation(id: string): Promise<Customer>;
 }

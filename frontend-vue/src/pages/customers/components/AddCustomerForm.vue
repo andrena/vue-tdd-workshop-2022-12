@@ -57,12 +57,14 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import type { CustomerUnsaved } from "commons";
+import { injectOrThrow } from "../../../services/injectOrThrow";
+import { CustomerRepositoryKey } from "../../../services/CustomerRepository";
 import ButtonWithLoading from "../../../components/ButtonWithLoading.vue";
 import { throwError } from "../../../../throwError";
 
-const emit =
-  defineEmits<(e: "newCustomer", customer: CustomerUnsaved) => void>();
 const form = ref<HTMLFormElement | null>(null);
+
+const customerRepository = injectOrThrow(CustomerRepositoryKey);
 
 function getNewAddress() {
   return { streetAndNumber: "", zipCode: "", city: "", country: "" };
@@ -84,9 +86,9 @@ function getForm(): HTMLFormElement {
   return form.value ?? throwError("Form not found");
 }
 
-function submit() {
+async function submit() {
   if (getForm().reportValidity()) {
-    emit("newCustomer", customer.value);
+    await customerRepository.add(customer.value);
     customer.value = getNewCustomer();
   }
 }

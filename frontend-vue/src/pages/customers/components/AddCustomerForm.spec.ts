@@ -1,7 +1,23 @@
 import { fireEvent, render, type RenderResult } from "@testing-library/vue";
 import AddCustomerForm from "./AddCustomerForm.vue";
 import type { CustomerUnsaved } from "commons";
+import { CustomerRepositoryKey } from "../../../services/CustomerRepository";
+import { CustomerRepositoryMock } from "../../../test-utils/CustomerRepositoryMock";
 import { describe, expect, it } from "vitest";
+
+function renderForm() {
+  const repository = new CustomerRepositoryMock();
+  return {
+    repository,
+    form: render(AddCustomerForm, {
+      global: {
+        provide: {
+          [CustomerRepositoryKey as symbol]: repository,
+        },
+      },
+    }),
+  };
+}
 
 describe("AddCustomerForm", () => {
   const firstName = "Max";
@@ -36,7 +52,7 @@ describe("AddCustomerForm", () => {
   }
 
   it("should render a form with the expected inputs", () => {
-    const form = render(AddCustomerForm);
+    const { form } = renderForm();
 
     expect(form.getByTitle("Add a Customer")).toBeInTheDocument();
     expect(form.getByLabelText("First name")).toBeInTheDocument();
@@ -46,16 +62,18 @@ describe("AddCustomerForm", () => {
   });
 
   it("should add a customer when filling the form and submitting it", async () => {
-    const form = render(AddCustomerForm);
+    const { form, repository } = renderForm();
 
     await fillInValidValues(form);
     await fireEvent.click(form.getByText("Add customer"));
 
-    expect(form.emitted("newCustomer")).toEqual([[unsavedCustomer]]);
+    expect(repository.customers).toEqual([
+      expect.objectContaining(unsavedCustomer),
+    ]);
   });
 
   it("should reset the formular after submitting", async () => {
-    const form = render(AddCustomerForm);
+    const { form } = renderForm();
 
     await fillInValidValues(form);
     await fireEvent.click(form.getByText("Add customer"));
@@ -71,21 +89,21 @@ describe("AddCustomerForm", () => {
   });
 
   it("should not save a customer when submitting without inputs", async () => {
-    const form = render(AddCustomerForm);
+    const { form, repository } = renderForm();
 
     await fireEvent.click(form.getByText("Add customer"));
 
-    expect(form.emitted("newCustomer")).toBeUndefined();
+    expect(repository.customers).toEqual([]);
   });
 
   it("should not save a customer when submitting with an invalid email", async () => {
-    const form = render(AddCustomerForm);
+    const { form, repository } = renderForm();
 
     await fillInValidValues(form);
     await fireEvent.update(form.getByLabelText("Email address"), "invalid");
     await fireEvent.click(form.getByText("Add customer"));
 
-    expect(form.emitted("newCustomer")).toBeUndefined();
+    expect(repository.customers).toEqual([]);
   });
 
   describe("multiple addresses", () => {

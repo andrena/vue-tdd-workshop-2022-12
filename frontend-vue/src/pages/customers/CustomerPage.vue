@@ -1,59 +1,29 @@
 <template>
-  <h2>Customer List</h2>
-  <div class="content">
-    <CustomerTable :customers="customers" />
-    <AddCustomerForm @new-customer="addCustomer" />
-  </div>
+  <LoadingSpinner v-if="loading" />
+  <template v-else>
+    <h2>Customer List</h2>
+    <div class="content">
+      <CustomerTable :customers="customerRepository.customers" />
+      <AddCustomerForm />
+    </div>
+  </template>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import CustomerTable from "./components/CustomerTable.vue";
 import AddCustomerForm from "./components/AddCustomerForm.vue";
-import type { Customer, CustomerUnsaved } from "commons";
+import { injectOrThrow } from "../../services/injectOrThrow";
+import { CustomerRepositoryKey } from "../../services/CustomerRepository";
+import LoadingSpinner from "../../components/LoadingSpinner.vue";
 
-const customers = ref<Customer[]>([
-  {
-    id: "customer1",
-    firstName: "John",
-    lastName: "Doe",
-    addresses: [
-      {
-        city: "Berlin",
-        zipCode: "10000",
-        streetAndNumber: "Teststrasse 1",
-        country: "Deutschland",
-      },
-    ],
-    emailAddress: "john.doe@mail.de",
-    phoneNumber: "+4900000000",
-    status: "inactive",
-  },
-  {
-    id: "customer2",
-    firstName: "Max",
-    lastName: "Mustermann",
-    addresses: [
-      {
-        city: "Berlin",
-        zipCode: "10000",
-        streetAndNumber: "Teststrasse 2",
-        country: "Deutschland",
-      },
-    ],
-    emailAddress: "max.mustermann@mail.de",
-    phoneNumber: "+4900000011",
-    status: "inactive",
-  },
-]);
+const customerRepository = injectOrThrow(CustomerRepositoryKey);
 
-function addCustomer(customer: CustomerUnsaved) {
-  customers.value.push({
-    id: crypto.randomUUID(),
-    status: "inactive",
-    ...customer,
-  });
-}
+const loading = ref(true);
+onBeforeMount(async () => {
+  await customerRepository.init();
+  loading.value = false;
+});
 </script>
 
 <style scoped>
