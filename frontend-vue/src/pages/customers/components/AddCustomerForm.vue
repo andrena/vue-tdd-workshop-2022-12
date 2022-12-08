@@ -27,40 +27,31 @@
         type="text"
       />
     </section>
-    <template v-for="(address, index) in customer.addresses" :key="index">
-      <section>
-        <label for="streetAndNumber">Street and number</label>
-        <input
-          id="streetAndNumber"
-          v-model="address.streetAndNumber"
-          required
-          type="text"
-        />
-      </section>
-      <section>
-        <label for="zipCode">Zip code</label>
-        <input id="zipCode" v-model="address.zipCode" required type="text" />
-      </section>
-      <section>
-        <label for="city">City</label>
-        <input id="city" v-model="address.city" required type="text" />
-      </section>
-      <section>
-        <label for="country">Country</label>
-        <input id="country" v-model="address.country" required type="text" />
-      </section>
-    </template>
+    <AddressInput
+      v-for="(address, index) in customer.addresses"
+      :key="index"
+      :address="address"
+      @update:address="updateAddress(index, $event)"
+    />
+    <div class="address-buttons">
+      <button type="button" @click="addNewAddress">Add new address</button>
+      <button type="button" @click="removeLastAddress">Remove address</button>
+    </div>
     <ButtonWithLoading :handler="submit">Add customer</ButtonWithLoading>
   </form>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import type { CustomerUnsaved } from "commons";
+import type { Address, CustomerUnsaved } from "commons";
+import AddressInput from "./AddressInput.vue";
 import { injectOrThrow } from "../../../services/injectOrThrow";
 import { CustomerRepositoryKey } from "../../../services/CustomerRepository";
 import ButtonWithLoading from "../../../components/ButtonWithLoading.vue";
 import { throwError } from "../../../../throwError";
+
+const MIN_ADDRESS_COUNT = 1;
+const MAX_ADDRESS_COUNT = 3;
 
 const form = ref<HTMLFormElement | null>(null);
 
@@ -81,6 +72,22 @@ function getNewCustomer(): CustomerUnsaved {
 }
 
 const customer = ref<CustomerUnsaved>(getNewCustomer());
+
+function updateAddress(index: number, address: Address) {
+  customer.value.addresses[index] = address;
+}
+
+function addNewAddress() {
+  if (customer.value.addresses.length < MAX_ADDRESS_COUNT) {
+    customer.value.addresses.push(getNewAddress());
+  }
+}
+
+function removeLastAddress() {
+  if (customer.value.addresses.length > MIN_ADDRESS_COUNT) {
+    customer.value.addresses.pop();
+  }
+}
 
 function getForm(): HTMLFormElement {
   return form.value ?? throwError("Form not found");
@@ -106,5 +113,16 @@ section {
   display: flex;
   flex-direction: row;
   gap: 2rem;
+}
+
+.address-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.address-buttons > button {
+  background-color: aliceblue;
+  color: black;
 }
 </style>

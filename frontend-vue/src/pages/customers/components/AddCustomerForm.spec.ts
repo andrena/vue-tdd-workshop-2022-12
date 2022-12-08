@@ -108,7 +108,49 @@ describe("AddCustomerForm", () => {
 
   describe("multiple addresses", () => {
     it("should add an address input when clicking on 'Add new address'", async () => {
-      // ...
+      const { form } = renderForm();
+
+      await fireEvent.click(form.getByText("Add new address"));
+
+      expect(form.getAllByText("Address")).toHaveLength(2);
+    });
+
+    it("should remove an address input when clicking on 'Remove address'", async () => {
+      const { form } = renderForm();
+
+      await fireEvent.click(form.getByText("Add new address"));
+      await fireEvent.click(form.getByText("Add new address"));
+      await fireEvent.click(form.getByText("Remove address"));
+
+      expect(form.getAllByText("Address")).toHaveLength(2);
+    });
+
+    it("should remove the last address and keep the other ones intact", async () => {
+      const { form } = renderForm();
+
+      await fireEvent.update(form.getByLabelText("City"), "Berlin");
+      await fireEvent.click(form.getByText("Add new address"));
+      await fireEvent.click(form.getByText("Remove address"));
+
+      expect(form.getByLabelText("City")).toHaveValue("Berlin");
+    });
+
+    it("should not remove an address when clicking on 'Remove address' if there is only one", async () => {
+      const { form } = renderForm();
+
+      await fireEvent.click(form.getByText("Remove address"));
+
+      expect(form.getByText("Address")).toBeInTheDocument();
+    });
+
+    it("should not allow more than 3 addresses in total", async () => {
+      const { form } = renderForm();
+
+      await fireEvent.click(form.getByText("Add new address"));
+      await fireEvent.click(form.getByText("Add new address"));
+      await fireEvent.click(form.getByText("Add new address"));
+
+      expect(form.getAllByText("Address")).toHaveLength(3);
     });
   });
 });
