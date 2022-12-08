@@ -36,26 +36,36 @@ const jane = createTestCustomer({
   phoneNumber: "+49987654321",
   emailAddress: "jd@mail.de",
 });
+const albert = createTestCustomer({
+  firstName: "Albert",
+  lastName: "Zweistein",
+  addresses: [
+    {
+      city: "Ulm",
+      country: "Deutschland",
+      zipCode: "93524",
+      streetAndNumber: "Gasse 23",
+    },
+  ],
+  phoneNumber: "+49369258147",
+  emailAddress: "e2m2c4@mail.de",
+});
 
 describe("with only one word in the search", () => {
-  it("has an empty dummy test, so the suite does not fail", () => {
-    // you can start with deleting this test
-  });
-
-  it.skip("should return every item for an empty search", () => {
+  it("should return every item for an empty search", () => {
     const result = searchCustomer("", [ben, jane]);
 
     expect(result).toContain(ben);
     expect(result).toContain(jane);
   });
 
-  it.skip("should return a customer whose first name is the search string", () => {
+  it("should return a customer whose first name is the search string", () => {
     const result = searchCustomer("Benjamin", [ben, jane]);
 
     expect(result).toEqual([ben]);
   });
 
-  it.skip("should not change the original array", () => {
+  it("should not change the original array", () => {
     const original = [ben, jane];
     const originalCopy = [...original];
     searchCustomer("Benjamin", original);
@@ -63,7 +73,7 @@ describe("with only one word in the search", () => {
     expect(original).toEqual(originalCopy);
   });
 
-  it.skip("should return a new  array", () => {
+  it("should return a new  array", () => {
     const original = [ben, jane];
     const result = searchCustomer("", original);
 
@@ -71,56 +81,56 @@ describe("with only one word in the search", () => {
     expect(result).not.toBe(original);
   });
 
-  it.skip("should return a customer whose first name contains the search string", () => {
+  it("should return a customer whose first name contains the search string", () => {
     const result = searchCustomer("Ben", [ben, jane]);
 
     expect(result).toEqual([ben]);
   });
 
-  it.skip("should return a customer whose last name contains the search string", () => {
+  it("should return a customer whose last name contains the search string", () => {
     const result = searchCustomer("Utz", [ben, jane]);
 
     expect(result).toEqual([ben]);
   });
 
-  it.skip("should return a customer whose phoneNumber contains the search string", () => {
+  it("should return a customer whose phoneNumber contains the search string", () => {
     const result = searchCustomer("123456", [ben, jane]);
 
     expect(result).toEqual([ben]);
   });
 
-  it.skip("should return a customer whose emailAddress contains the search string", () => {
+  it("should return a customer whose emailAddress contains the search string", () => {
     const result = searchCustomer("bu@", [ben, jane]);
 
     expect(result).toEqual([ben]);
   });
 
   describe("addresses", () => {
-    it.skip("should return a customer whose first address has a city containing the search string", () => {
+    it("should return a customer whose first address has a city containing the search string", () => {
       const result = searchCustomer("Ber", [ben, jane]);
 
       expect(result).toEqual([ben]);
     });
 
-    it.skip("should return a customer whose first address has a street containing the search string", () => {
+    it("should return a customer whose first address has a street containing the search string", () => {
       const result = searchCustomer("Stra", [ben, jane]);
 
       expect(result).toEqual([ben]);
     });
 
-    it.skip("should return a customer whose first address has a zipCode containing the search string", () => {
+    it("should return a customer whose first address has a zipCode containing the search string", () => {
       const result = searchCustomer("246", [ben, jane]);
 
       expect(result).toEqual([ben]);
     });
 
-    it.skip("should return a customer whose first address has a country containing the search string", () => {
+    it("should return a customer whose first address has a country containing the search string", () => {
       const result = searchCustomer("eutsch", [ben, jane]);
 
       expect(result).toEqual([ben, jane]);
     });
 
-    it.skip("should return a customer whose second address has a city containing the search string", () => {
+    it("should return a customer whose second address has a city containing the search string", () => {
       const result = searchCustomer("sau", [ben, jane]);
 
       expect(result).toEqual([ben]);
@@ -128,12 +138,18 @@ describe("with only one word in the search", () => {
   });
 });
 
-// TODO enable this describe block
-describe.skip("with multiple words in the search", () => {
-  // ...
+describe("with multiple words in the search", () => {
+  it("should return every item matching at least one word of the search", () => {
+    const result = searchCustomer("Nassau Ulm", [ben, jane, albert]);
+
+    expect(result).toEqual([ben, albert]);
+  });
 });
 
-// TODO enable this describe block
-describe.skip("ignoring case", () => {
-  // ...
+describe("case", () => {
+  it("should ignore case when searching", () => {
+    const result = searchCustomer("ben", [ben, jane]);
+
+    expect(result).toEqual([ben]);
+  });
 });
